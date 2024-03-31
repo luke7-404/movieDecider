@@ -1,0 +1,7 @@
+# Files to ignore
+.git/
+.vscode/
+*.txt
+
+!license.txt
+
