@@ -5,12 +5,12 @@ This project will be focused on creating a program that helps users decide on a 
 This section is to plan out the sub-functions needed to make the whole program work
 
 ### Starter Steps 
-1. **Create the enviroment**
-    - Install BeautifulSoup and set it up
-    - Install a HTML Parser
-2. **Get URL and use BeautifulSoup with basic tasks**
-    - Get Website URL (from IMDb)
-    - Hardcode some data to scrape
+1. ~~**Create the enviroment**~~
+   - ~~Install BeautifulSoup and set it up~~
+   - ~~Install a HTML Parser~~
+2. **Get Local URL and use BeautifulSoup with basic tasks**
+    - Host a Local HTML file
+    - Search for the data in the HTML file
 
 3. **Scrape Movie Data**
    
