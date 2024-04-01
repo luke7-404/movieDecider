@@ -1,22 +1,47 @@
 from bs4 import BeautifulSoup as bSoup
-import urllib3
+import requests
 
 
-url = "http://localhost:8000/"
-our_url = urllib3.PoolManager().request('GET', url).data
-soup = bSoup(our_url, "lxml")
+class User:
+    def __init__(self, year: int, typeOfContent: str):
+      self.year = year
+      self.type = typeOfContent
+      
+    def createSoup(self):
+        # Provide the request with a User-Agent
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+        }
 
-#print(soup.find('title').text)
-#print(soup.find('body').text)
+        # URL to scrape data from
+        url = "https://www.imdb.com/search/title/?title_type=" + self.type + "&release_date=" + str(self.year) + "," + str(self.year)
 
-head_tag = soup.head
-#print(str(head_tag) + "\n")
-print(head_tag.contents)
+        # Get the response from the URL using the User-Agent credentials
+        response = requests.get(url, headers=headers)
 
-for child in head_tag.descendants:
-    print(child)
-    
-#title_tag = head_tag.contents[0]
-#print(title_tag.string)
+        # return BeautifulSoup's scrapings 
+        return bSoup(response.text, "html.parser")
+
+    # Where the data sits
+    #/html/body/div[2]/main/div[2]/div[3]/section/section/div/
+    #section/section/div[2]/div/section/div[2]/div[2]/ul
+
+    # The iterable at the end of the last path
+    #/ul/li[1]
+
+    def findData(self):
+        soup = self.createSoup()
+        body_tag = soup.find("body")
+        for ul in body_tag.find_all('ul'):
+            for li in ul.find_all('li'):
+                if li['class'] == "ipc-metadata-list-summary-item":
+                    print(li)
+            
+        
+        
 
 
+
+# Main
+user = User(1980, "feature")
+user.findData()

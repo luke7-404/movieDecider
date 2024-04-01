@@ -8,10 +8,13 @@ This section is to plan out the sub-functions needed to make the whole program w
 1. ~~**Create the enviroment**~~
    - ~~Install BeautifulSoup and set it up~~
    - ~~Install a HTML Parser~~
-2. **Get Local URL and use BeautifulSoup with basic tasks**
-    - Host a Local HTML file
-    - Search for the data in the HTML file
+2. ~~**Get Local URL and use BeautifulSoup with basic tasks**~~
+   - ~~Host a Local HTML file~~
+   - ~~Search for the data in the HTML file~~
 
 3. **Scrape Movie Data**
-   
+   - Extract movie information (i.e. titles, ratings, and release years) from the URL.
+   - Store the scraped data
+
+4. **Implement User Input Functionality**
 
