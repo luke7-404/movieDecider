@@ -29,13 +29,42 @@ class User:
     # The iterable at the end of the last path
     #/ul/li[1]
 
-    def findData(self):
+    def findDataLocation(self):
         soup = self.createSoup()
         body_tag = soup.find("body")
         for ul in body_tag.find_all('ul'):
-            for li in ul.find_all('li'):
-                if li['class'] == "ipc-metadata-list-summary-item":
-                    print(li)
+            if str(ul.get('class')[0]) == "ipc-metadata-list":
+                return ul
+        pass
+    
+    def collectData(self):
+        ul_location = self.findDataLocation()
+        dataMatrix = []
+        
+        for li in ul_location:
+            row = []
+            row.append(str(li.find('h3').string))
+            for spans in range(len(li.find_all("span"))):
+                spanItem = li.find_all("span")[spans].text
+                if spans > 0 and spans < 5:
+                    if "(" in str(spanItem):
+                        row.append(str(spanItem[:spanItem.find("(")-1]))
+                    else: 
+                        row.append(str(spanItem))
+            dataMatrix.append(row)         
+        return dataMatrix
+                    
+            
+        
+        
+        
+    def scrapeIMDb(self):
+        dataMatrix = self.collectData()
+        for row in dataMatrix:
+            print(" | ".join(row)+"\n")
+        
+        
+
             
         
         
@@ -44,4 +73,4 @@ class User:
 
 # Main
 user = User(1980, "feature")
-user.findData()
+user.scrapeIMDb()
