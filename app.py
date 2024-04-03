@@ -1,8 +1,9 @@
 from bs4 import BeautifulSoup as bSoup
 import requests
+import datetime as date
 
 
-class User:
+class Scraper(object):
     def __init__(self, year: int, typeOfContent: str):
       self.year = year
       self.type = typeOfContent
@@ -46,6 +47,7 @@ class User:
             row.append(str(li.find('h3').string))
             for spans in range(len(li.find_all("span"))):
                 spanItem = li.find_all("span")[spans].text
+                
                 if spans > 0 and spans < 5:
                     if "(" in str(spanItem):
                         row.append(str(spanItem[:spanItem.find("(")-1]))
@@ -53,24 +55,52 @@ class User:
                         row.append(str(spanItem))
             dataMatrix.append(row)         
         return dataMatrix
-                    
-            
-        
-        
         
     def scrapeIMDb(self):
         dataMatrix = self.collectData()
         for row in dataMatrix:
             print(" | ".join(row)+"\n")
         
-        
-
+class User(object):
+    
+    def menuSelecton(self):
+        selection = ["year", "content"]
+        entertainmentType = ["feature","tv_special","podcast_episode",
+                             "tv_series","tv_short","short","video_game",
+                             "tv_episode","video","tv_miniseries","tv_movie"]
+        print("What type of content would you like to see? Please choose from the list below: ")
+        for i in range(len(entertainmentType)):            
+            print(f'{i+1}. {entertainmentType[i].replace('_', ' ').title()}') 
             
+        while not (selection[1].isdigit()):
+            selection[1] = input("Choose the type of content by entering its number: ")
+            if selection[1].isdigit() and (int(selection[1])-1 < len(entertainmentType)): 
+                selection[1] = entertainmentType[int(selection[1])-1]
+                break
+            else:
+                print("Selection not answered correctly try again")
+                selection[1] = "b"
+        
+        while not (selection[0].isdigit()):
+            selection[0] = int(input("Please enter in the year that the content was made in: "))
+            if selection[0].is_integer() and (selection[0] <= int(date.datetime.now().year)): 
+                break
+            else:
+                print("Selection not answered correctly try again")
+                selection[0] = "b"
+        
+        formattedSelection = selection[1].replace('_', ' ').title()
+            
+        if not (formattedSelection.endswith('s')):
+            formattedSelection += 's'
+            
+        print(f"Thanks for your inputs! here are the top 50 {formattedSelection} from the year {selection[0]}: \n")
+        scraper = Scraper(selection[0], selection[1])
+        scraper.scrapeIMDb()
         
         
-
-
+        
 
 # Main
-user = User(1980, "feature")
-user.scrapeIMDb()
+user = User()
+user.menuSelecton()

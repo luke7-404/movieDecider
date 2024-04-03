@@ -13,12 +13,12 @@ This section is to plan out the sub-functions needed to make the whole program w
    - ~~Search for the data in the HTML file~~
 
 3. ~~**Scrape Movie Data**~~
-   ~~- Extract movie information (i.e. titles, ratings, and release years) from the URL.~~
-   ~~- Store the scraped data~~
+   - ~~Extract movie information (i.e. titles, ratings, and release years) from the URL.~~
+   - ~~Store the scraped data~~
 
-4. **Implement User Input Functionality**
-   - Develop a function to allow user input for a specific year
-   - Validate user input to ensure it corresponds to a valid year within the specified range
+4. ~~**Implement User Input Functionality**~~
+   - ~~Develop a function to allow user input for a specific year~~
+   - ~~Validate user input to ensure it corresponds to a valid year within the specified range~~
 
 5. **Debug**
 
