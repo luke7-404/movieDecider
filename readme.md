@@ -22,8 +22,11 @@ This section is to plan out the sub-functions needed to make the whole program w
 
 5. ~~**Debug**~~
 
-6. **Display Movie Recommendations:**
-   - List the top 50 movie recommendations to the user
-   - Develop a function that allows the user to select the movie and provide the link to that IMDb page
+6. ~~**Display Movie Recommendations:**~~
+   - ~~List the top 50 movie recommendations to the user~~
+   - ~~Develop a function that allows the user to select the movie and provide the link to that IMDb page~~
 
-7. **Debug and add comments**
+7. ~~**Add comments**~~
+8. **Improve Code**
+   - Increase readability
+   - Optimize performance
