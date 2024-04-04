@@ -20,5 +20,10 @@ This section is to plan out the sub-functions needed to make the whole program w
    - ~~Develop a function to allow user input for a specific year~~
    - ~~Validate user input to ensure it corresponds to a valid year within the specified range~~
 
-5. **Debug**
+5. ~~**Debug**~~
 
+6. **Display Movie Recommendations:**
+   - List the top 50 movie recommendations to the user
+   - Develop a function that allows the user to select the movie and provide the link to that IMDb page
+
+7. **Debug and add comments**

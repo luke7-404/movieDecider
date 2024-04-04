@@ -1,12 +1,14 @@
 from bs4 import BeautifulSoup as bSoup
 import requests
 import datetime as date
+import imdb
 
 
 class Scraper(object):
     def __init__(self, year: int, typeOfContent: str):
       self.year = year
       self.type = typeOfContent
+      self.url = "https://www.imdb.com/search/title/?title_type=" + self.type + "&release_date=" + str(self.year) + "," + str(self.year)
       
     def createSoup(self):
         # Provide the request with a User-Agent
@@ -15,10 +17,9 @@ class Scraper(object):
         }
 
         # URL to scrape data from
-        url = "https://www.imdb.com/search/title/?title_type=" + self.type + "&release_date=" + str(self.year) + "," + str(self.year)
 
         # Get the response from the URL using the User-Agent credentials
-        response = requests.get(url, headers=headers)
+        response = requests.get(self.url, headers=headers)
 
         # return BeautifulSoup's scrapings 
         return bSoup(response.text, "html.parser")
@@ -60,6 +61,19 @@ class Scraper(object):
         dataMatrix = self.collectData()
         for row in dataMatrix:
             print(" | ".join(row)+"\n")
+            
+        return dataMatrix
+    
+    def firstLink(self, URL, name):
+        self.url = URL
+        soup = self.createSoup()
+        a_tags = soup.find_all('a')
+        for a in a_tags:
+            if a.string == name:
+                a_tags = a   
+                return str(a['href'])
+        pass
+        
         
 class User(object):
     
@@ -67,7 +81,7 @@ class User(object):
         selection = ["year", "content"]
         entertainmentType = ["feature","tv_special","podcast_episode",
                              "tv_series","tv_short","short","video_game",
-                             "tv_episode","video","tv_miniseries","tv_movie"]
+                             "tv_episode","video","tv_miniseries","tv_movie", "music_video"]
         print("What type of content would you like to see? Please choose from the list below: ")
         for i in range(len(entertainmentType)):            
             print(f'{i+1}. {entertainmentType[i].replace('_', ' ').title()}') 
@@ -82,8 +96,8 @@ class User(object):
                 selection[1] = "b"
         
         while not (selection[0].isdigit()):
-            selection[0] = int(input("Please enter in the year that the content was made in: "))
-            if selection[0].is_integer() and (selection[0] <= int(date.datetime.now().year)): 
+            selection[0] = input("Please enter in the year that the content was made in: ")
+            if selection[0].isdigit() and (int(selection[0]) <= int(date.datetime.now().year) or int(selection[0]) >= 1900): 
                 break
             else:
                 print("Selection not answered correctly try again")
@@ -96,8 +110,26 @@ class User(object):
             
         print(f"Thanks for your inputs! here are the top 50 {formattedSelection} from the year {selection[0]}: \n")
         scraper = Scraper(selection[0], selection[1])
-        scraper.scrapeIMDb()
+        data = scraper.scrapeIMDb()
         
+        lookupIndex = input("If you would like to see the IMDb page for a specific title, enter its number. If you wouldn't, enter anything else: ") + ". "
+        
+        try:
+            int(lookupIndex)
+            int(lookupIndex) > 0 and int(lookupIndex) <= 50
+        except:
+            print("Thank you for using Movie Decider")
+            return 0
+        nameOfContent = ""
+            
+        for i in range(len(data)):
+            if lookupIndex in data[i][0][::]:
+                nameOfContent = data[i][0].strip(lookupIndex)
+                break    
+
+        link = scraper.firstLink(f"http://www.imdb.com/find?q={nameOfContent.replace(' ', '%20')}&s=all", nameOfContent)
+        print(f'The URL: http://www.imdb.com{link}')
+        return 1
         
         
 
